@@ -9,7 +9,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CustomInput from "../reusable/Input";
 
 export default function Login() {
@@ -35,16 +35,6 @@ export default function Login() {
   };
   const placeholderColor = isDarkMode ? "#BBBBBB" : "#333";
 
-  const handleUsernameChange = (text) => {
-    setUsername(text);
-    console.log(text);
-  };
-
-  const handlePasswordChange = (text) => {
-    setPassword(text);
-    console.log(text);
-  };
-
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={[styles.container, containerStyles]}>
@@ -57,7 +47,7 @@ export default function Login() {
             placeholderColor={placeholderColor}
             passedStyles={inputStyles}
             value={username}
-            onChangeText={handleUsernameChange}
+            onChangeText={setUsername}
           />
           <CustomInput
             inputWidth={inputWidth}
@@ -66,10 +56,13 @@ export default function Login() {
             placeholderColor={placeholderColor}
             passedStyles={inputStyles}
             value={password}
-            onChangeText={handlePasswordChange}
+            onChangeText={setPassword}
             secureTextEntry={true}
           />
-          <View style={[styles.button, { width: inputWidth }]}>
+          <TouchableOpacity style={styles.loginButton}>
+            <Text style={textStyles}>Login</Text>
+          </TouchableOpacity>
+          <View style={[styles.linkBox, { width: inputWidth }]}>
             <TouchableOpacity>
               <Text style={textStyles}>Create Account</Text>
             </TouchableOpacity>
@@ -93,16 +86,25 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     gap: 20,
-    marginTop: -80,
+    marginTop: -120,
   },
   loginText: {
     fontSize: 28,
     fontWeight: "bold",
     marginBottom: 10,
   },
-  button: {
+  linkBox: {
     flexDirection: "row",
     justifyContent: "space-between",
     paddingVertical: 5,
+  },
+  link: {
+    padding: 30,
+  },
+  loginButton: {
+    backgroundColor: "blue",
+    padding: 10,
+    paddingHorizontal: 30,
+    borderRadius: 50,
   },
 });
