@@ -5,13 +5,14 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Login from "./assets/components/Login";
 import CreateAccount from "./assets/components/CreateAccount";
 import ForgotPassword from "./assets/components/ForgotPassword";
+import CreateSuccess from "./assets/components/CreateSuccess";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="CreateAccount">
+      <Stack.Navigator initialRouteName="Login">
         <Stack.Screen
           name="Login"
           component={Login}
@@ -25,6 +26,11 @@ export default function App() {
         <Stack.Screen
           name="ForgotPassword"
           component={ForgotPassword}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="AccountCreated"
+          component={CreateSuccess}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

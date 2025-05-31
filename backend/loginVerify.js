@@ -13,6 +13,9 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 
 const createFirestoreUser = async (email, password, username) => {
   try {
+    if (!email || !password || !username) {
+        return 'incomplete';
+    }
     const userCredential = await createUserWithEmailAndPassword(
       auth,
       email,
@@ -29,11 +32,19 @@ const createFirestoreUser = async (email, password, username) => {
     });
 
     console.log("User created in Auth and Firestore:", uid);
-    return uid;
+    return { ok: true };
   } catch (error) {
     console.error("Error creating user:", error);
     // Handle specific errors (e.g., email-already-in-use)
+
+    if (error.code === "auth/email-already-in-use") {
+      return "used";
+    } else if (error.code === "auth/invalid-email") {
+      return "invalid";
+    } else if (error.code === "auth/weak-password") {
+      return "weak";
+    }
   }
 };
 
-createFirestoreUser("1@gmail.com", "something", "username");
+export { createFirestoreUser };

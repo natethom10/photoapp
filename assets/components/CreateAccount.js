@@ -12,11 +12,14 @@ import {
 import { useEffect, useState } from "react";
 import CustomInput from "../reusable/Input";
 
+import { createFirestoreUser } from "../../backend/loginVerify";
+
 export default function CreateAccount({ navigation }) {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const { width } = useWindowDimensions();
   const inputWidth = width > 768 ? "30%" : "80%";
@@ -37,6 +40,23 @@ export default function CreateAccount({ navigation }) {
     backgroundColor: isDarkMode ? "#121212" : "#f0f2f5",
   };
   const placeholderColor = isDarkMode ? "#BBBBBB" : "#333";
+
+  const handleSubmit = async () => {
+    setLoading(true);
+    const response = await createFirestoreUser(email, password, username);
+    // if (response.ok) {
+    setEmail("");
+    setUsername("");
+    setPassword("");
+    setConfirmPassword("");
+
+    navigation.navigate("AccountCreated");
+    // }
+
+    console.log("This is ran everytime.");
+
+    setLoading(false);
+  };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -81,8 +101,13 @@ export default function CreateAccount({ navigation }) {
             onChangeText={setConfirmPassword}
             secureTextEntry={true}
           />
-          <TouchableOpacity style={styles.loginButton}>
-            <Text style={{ color: "#E0E0E0" }}>Sign Up</Text>
+          <TouchableOpacity
+            style={styles.loginButton}
+            onPress={() => handleSubmit()}
+          >
+            <Text style={{ color: "#E0E0E0" }}>
+              {!loading ? "Sign Up" : "Loading..."}
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.navigate("Login")}>
             <Text style={textStyles}>Back to Login</Text>
