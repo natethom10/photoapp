@@ -1,6 +1,13 @@
 // loginVerify.js
 import { db, auth } from "../firebaseConfig.js";
-import { doc, setDoc } from "firebase/firestore";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  doc,
+  setDoc,
+} from "firebase/firestore";
 
 import { createUserWithEmailAndPassword } from "firebase/auth";
 
@@ -14,7 +21,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 const createFirestoreUser = async (email, password, username) => {
   try {
     if (!email || !password || !username) {
-        return 'incomplete';
+      return "incomplete";
     }
     const userCredential = await createUserWithEmailAndPassword(
       auth,
@@ -47,4 +54,25 @@ const createFirestoreUser = async (email, password, username) => {
   }
 };
 
-export { createFirestoreUser };
+const resetPassword = async (email) => {
+  const normalizedEmail = email.toLowerCase();
+  const q = query(
+    collection(db, "users"),
+    where("email", "==", normalizedEmail)
+  );
+
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach((doc) => {
+    // doc.data() is never undefined for query doc snapshots
+    console.log(doc.id, " => ", JSON.stringify(doc.data(), null, 2));
+    console.log(doc.data().email === normalizedEmail);
+  });
+
+  if (querySnapshot.size === 1) {
+    return { ok: true };
+  } else {
+    return { ok: false };
+  }
+};
+
+export { createFirestoreUser, resetPassword };

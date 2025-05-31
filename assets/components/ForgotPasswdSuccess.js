@@ -2,74 +2,41 @@ import {
   View,
   Text,
   StyleSheet,
-  TextInput,
   useWindowDimensions,
   useColorScheme,
   TouchableOpacity,
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
-import { useEffect, useState } from "react";
-import CustomInput from "../reusable/Input";
 
-import { resetPassword } from "../../backend/loginVerify";
-
-export default function ForgotPassword({ navigation }) {
-  const [email, setEmail] = useState("");
-
+export default function ForgotPasswordSuccess({ navigation }) {
   const { width } = useWindowDimensions();
-  const inputWidth = width > 768 ? "30%" : "80%";
   const loginBoxWidth = width > 768 ? "40%" : "90%";
 
   const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === "dark";
 
-  const inputStyles = {
-    borderColor: isDarkMode ? "#444444" : "#ccc",
-    backgroundColor: isDarkMode ? "#1F1F1F" : "#fff",
-    color: isDarkMode ? "#E0E0E0" : "black",
-  };
   const textStyles = {
     color: isDarkMode ? "#E0E0E0" : "#333",
   };
   const containerStyles = {
     backgroundColor: isDarkMode ? "#121212" : "#f0f2f5",
   };
-  const placeholderColor = isDarkMode ? "#BBBBBB" : "#333";
-
-  const handleSubmit = async () => {
-    const response = await resetPassword(email);
-    if (response.ok) {
-      navigation.navigate("PasswordLinkSent");
-    }
-  };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={[styles.container, containerStyles]}>
         <View style={[styles.loginBox, { width: loginBoxWidth }]}>
-          <Text style={[styles.loginText, textStyles]}>Forgot Password</Text>
+          <Text style={[styles.loginText, textStyles]}>Link Sent</Text>
           <Text style={[textStyles, { textAlign: "center" }]}>
-            No worries! Just enter your email below and we'll send you a secure
-            link to reset your password.
+            If an account exists with that email address, a password reset link
+            has been sent to your inbox.
           </Text>
-          <CustomInput
-            inputWidth={inputWidth}
-            placeholder="Email"
-            autoComplete="email"
-            placeholderColor={placeholderColor}
-            passedStyles={inputStyles}
-            value={email}
-            onChangeText={setEmail}
-          />
           <TouchableOpacity
             style={styles.loginButton}
-            onPress={() => handleSubmit()}
+            onPress={() => navigation.navigate("Login")}
           >
-            <Text style={{ color: "#E0E0E0" }}>Send Email</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-            <Text style={textStyles}>Back to Login</Text>
+            <Text style={{ color: "#E0E0E0" }}>Back to Login</Text>
           </TouchableOpacity>
         </View>
       </View>

@@ -6,6 +6,7 @@ import Login from "./assets/components/Login";
 import CreateAccount from "./assets/components/CreateAccount";
 import ForgotPassword from "./assets/components/ForgotPassword";
 import CreateSuccess from "./assets/components/CreateSuccess";
+import ForgotPasswordSuccess from "./assets/components/ForgotPasswdSuccess";
 
 const Stack = createNativeStackNavigator();
 
@@ -31,6 +32,11 @@ export default function App() {
         <Stack.Screen
           name="AccountCreated"
           component={CreateSuccess}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="PasswordLinkSent"
+          component={ForgotPasswordSuccess}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>
