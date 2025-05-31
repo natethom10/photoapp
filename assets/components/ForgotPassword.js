@@ -9,12 +9,12 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CustomInput from "../reusable/Input";
 
-export default function Login({ navigation }) {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+export default function ForgotPassword({ navigation }) {
+  const [email, setEmail] = useState("");
+
   const { width } = useWindowDimensions();
   const inputWidth = width > 768 ? "30%" : "80%";
   const loginBoxWidth = width > 768 ? "40%" : "90%";
@@ -35,54 +35,26 @@ export default function Login({ navigation }) {
   };
   const placeholderColor = isDarkMode ? "#BBBBBB" : "#333";
 
-  const handleSubmit = () => {
-    if (!username || !password) {
-      console.log("Please fill out entire form.");
-    }
-  };
-
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={[styles.container, containerStyles]}>
         <View style={[styles.loginBox, { width: loginBoxWidth }]}>
-          <Text style={[styles.loginText, textStyles]}>Login</Text>
+          <Text style={[styles.loginText, textStyles]}>Forgot Password</Text>
           <CustomInput
             inputWidth={inputWidth}
-            placeholder="Enter username"
-            autoComplete="username"
+            placeholder="Email"
+            autoComplete="email"
             placeholderColor={placeholderColor}
             passedStyles={inputStyles}
-            value={username}
-            onChangeText={setUsername}
+            value={email}
+            onChangeText={setEmail}
           />
-          <CustomInput
-            inputWidth={inputWidth}
-            placeholder="Enter password"
-            autoComplete="password"
-            placeholderColor={placeholderColor}
-            passedStyles={inputStyles}
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry={true}
-          />
-          <TouchableOpacity
-            style={styles.loginButton}
-            onPress={() => handleSubmit()}
-          >
-            <Text style={{ color: "#E0E0E0" }}>Login</Text>
+          <TouchableOpacity style={styles.loginButton}>
+            <Text style={{ color: "#E0E0E0" }}>Send Email</Text>
           </TouchableOpacity>
-          <View style={[styles.linkBox, { width: inputWidth }]}>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("CreateAccount")}
-            >
-              <Text style={textStyles}>Create Account</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("ForgotPassword")}
-            >
-              <Text style={textStyles}>Forgot Password</Text>
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+            <Text style={textStyles}>Back to Login</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </TouchableWithoutFeedback>
