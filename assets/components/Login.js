@@ -9,12 +9,22 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CustomInput from "../reusable/Input";
+
+import { checkLogin } from "../../backend/loginVerify";
 
 export default function Login({ navigation }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  const [usernameError, setUsernameError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   const { width } = useWindowDimensions();
   const inputWidth = width > 768 ? "30%" : "80%";
   const loginBoxWidth = width > 768 ? "40%" : "90%";
@@ -35,11 +45,44 @@ export default function Login({ navigation }) {
   };
   const placeholderColor = isDarkMode ? "#BBBBBB" : "#333";
 
-  const handleSubmit = () => {
-    if (!username || !password) {
-      console.log("Please fill out entire form.");
+  const handleSubmit = async () => {
+    setLoading(true);
+    setSubmitted(true);
+    if (username && password) {
+      const response = await checkLogin(username, password);
+      if (response.code) {
+        setErrorMessage("Username or Password is incorrect.");
+      }
+    } else {
+      if (!username) {
+        setUsernameError(true);
+      }
+      if (!password) {
+        setPasswordError(true);
+      }
+      setErrorMessage("Make sure to fill out all fields.");
     }
+    setLoading(false);
   };
+
+  useEffect(() => {
+    if (submitted) {
+      if (username) {
+        setUsernameError(false);
+        setErrorMessage("");
+      } else {
+        setUsernameError(true);
+        setErrorMessage("Make sure to fill out all fields.");
+      }
+      if (password) {
+        setPasswordError(false);
+        setErrorMessage("");
+      } else {
+        setPasswordError(true);
+        setErrorMessage("Make sure to fill out all fields.");
+      }
+    }
+  }, [username, password]);
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -51,7 +94,7 @@ export default function Login({ navigation }) {
             placeholder="Enter username"
             autoComplete="username"
             placeholderColor={placeholderColor}
-            passedStyles={inputStyles}
+            passedStyles={[inputStyles, usernameError && styles.inputError]}
             value={username}
             onChangeText={setUsername}
           />
@@ -60,16 +103,17 @@ export default function Login({ navigation }) {
             placeholder="Enter password"
             autoComplete="password"
             placeholderColor={placeholderColor}
-            passedStyles={inputStyles}
+            passedStyles={[inputStyles, passwordError && styles.inputError]}
             value={password}
             onChangeText={setPassword}
             secureTextEntry={true}
           />
+          <Text style={[textStyles, { color: "red" }]}>{errorMessage}</Text>
           <TouchableOpacity
             style={styles.loginButton}
             onPress={() => handleSubmit()}
           >
-            <Text style={{ color: "#E0E0E0" }}>Login</Text>
+            <Text style={{ color: "#E0E0E0" }}>{!loading ? 'Login' : 'Loading...'}</Text>
           </TouchableOpacity>
           <View style={[styles.linkBox, { width: inputWidth }]}>
             <TouchableOpacity
@@ -119,5 +163,9 @@ const styles = StyleSheet.create({
     padding: 10,
     paddingHorizontal: 30,
     borderRadius: 50,
+  },
+  inputError: {
+    borderColor: "red",
+    borderWidth: 1,
   },
 });

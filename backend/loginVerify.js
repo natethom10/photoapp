@@ -9,7 +9,10 @@ import {
   setDoc,
 } from "firebase/firestore";
 
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 
 // Add a new document in collection "cities"
 // await setDoc(doc(db, "cities", "something else"), {
@@ -32,7 +35,7 @@ const createFirestoreUser = async (email, password, username) => {
 
     // Add user data to Firestore using the UID as the document ID
     await setDoc(doc(db, "users", uid), {
-      username: username,
+      username: username.toLowerCase(),
       email: email, // Store email as a field too
       createdAt: new Date(),
       // ... any other user profile data
@@ -75,4 +78,36 @@ const resetPassword = async (email) => {
   }
 };
 
-export { createFirestoreUser, resetPassword };
+const checkLogin = async (username, password) => {
+  try {
+    const users = collection(db, "users");
+    const q = query(users, where("username", "==", username)); // Case-sensitive by default!
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
+      return {
+        code: "auth/username-not-found",
+        customData: {},
+        name: "FirebaseError",
+      };
+    }
+
+    const userData = querySnapshot.docs[0].data();
+    const emailToLogin = userData.email;
+
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      emailToLogin,
+      password
+    );
+    console.log(
+      "User signed in successfully (via username):",
+      userCredential.user.uid
+    );
+    return userCredential;
+  } catch (err) {
+    return err;
+  }
+};
+
+export { createFirestoreUser, resetPassword, checkLogin };
