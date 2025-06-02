@@ -10,16 +10,12 @@ import {
   Keyboard,
 } from "react-native";
 import { useEffect, useState } from "react";
-import CustomInput from "../reusable/Input";
+import CustomInput from "../../reusable/Input";
 
-import { createFirestoreUser } from "../../backend/loginVerify";
+import { resetPassword } from "../../../backend/loginVerify";
 
-export default function CreateAccount({ navigation }) {
+export default function ForgotPassword({ navigation }) {
   const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [loading, setLoading] = useState(false);
 
   const { width } = useWindowDimensions();
   const inputWidth = width > 768 ? "30%" : "80%";
@@ -42,27 +38,21 @@ export default function CreateAccount({ navigation }) {
   const placeholderColor = isDarkMode ? "#BBBBBB" : "#333";
 
   const handleSubmit = async () => {
-    setLoading(true);
-    const response = await createFirestoreUser(email, password, username);
-    // if (response.ok) {
-    setEmail("");
-    setUsername("");
-    setPassword("");
-    setConfirmPassword("");
-
-    navigation.navigate("AccountCreated");
-    // }
-
-    console.log("This is ran everytime.");
-
-    setLoading(false);
+    const response = await resetPassword(email);
+    if (response.ok) {
+      navigation.navigate("PasswordLinkSent");
+    }
   };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={[styles.container, containerStyles]}>
         <View style={[styles.loginBox, { width: loginBoxWidth }]}>
-          <Text style={[styles.loginText, textStyles]}>Create Account</Text>
+          <Text style={[styles.loginText, textStyles]}>Forgot Password</Text>
+          <Text style={[textStyles, { textAlign: "center" }]}>
+            No worries! Just enter your email below and we'll send you a secure
+            link to reset your password.
+          </Text>
           <CustomInput
             inputWidth={inputWidth}
             placeholder="Email"
@@ -72,42 +62,11 @@ export default function CreateAccount({ navigation }) {
             value={email}
             onChangeText={setEmail}
           />
-          <CustomInput
-            inputWidth={inputWidth}
-            placeholder="Username"
-            autoComplete="username"
-            placeholderColor={placeholderColor}
-            passedStyles={inputStyles}
-            value={username}
-            onChangeText={setUsername}
-          />
-          <CustomInput
-            inputWidth={inputWidth}
-            placeholder="Password"
-            autoComplete="password"
-            placeholderColor={placeholderColor}
-            passedStyles={inputStyles}
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry={true}
-          />
-          <CustomInput
-            inputWidth={inputWidth}
-            placeholder="Confirm Password"
-            autoComplete="password"
-            placeholderColor={placeholderColor}
-            passedStyles={inputStyles}
-            value={confirmPassword}
-            onChangeText={setConfirmPassword}
-            secureTextEntry={true}
-          />
           <TouchableOpacity
             style={styles.loginButton}
             onPress={() => handleSubmit()}
           >
-            <Text style={{ color: "#E0E0E0" }}>
-              {!loading ? "Sign Up" : "Loading..."}
-            </Text>
+            <Text style={{ color: "#E0E0E0" }}>Send Email</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.navigate("Login")}>
             <Text style={textStyles}>Back to Login</Text>

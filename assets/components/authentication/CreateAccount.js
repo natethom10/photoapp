@@ -10,19 +10,15 @@ import {
   Keyboard,
 } from "react-native";
 import { useEffect, useState } from "react";
-import CustomInput from "../reusable/Input";
+import CustomInput from "../../reusable/Input";
 
-import { checkLogin } from "../../backend/loginVerify";
+import { createFirestoreUser } from "../../../backend/loginVerify";
 
-export default function Login({ navigation }) {
+export default function CreateAccount({ navigation }) {
+  const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
-  const [usernameError, setUsernameError] = useState(false);
-  const [passwordError, setPasswordError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
-
-  const [submitted, setSubmitted] = useState(false);
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
   const { width } = useWindowDimensions();
@@ -47,86 +43,75 @@ export default function Login({ navigation }) {
 
   const handleSubmit = async () => {
     setLoading(true);
-    setSubmitted(true);
-    if (username && password) {
-      const response = await checkLogin(username, password);
-      if (response.code) {
-        setErrorMessage("Username or Password is incorrect.");
-      }
-    } else {
-      if (!username) {
-        setUsernameError(true);
-      }
-      if (!password) {
-        setPasswordError(true);
-      }
-      setErrorMessage("Make sure to fill out all fields.");
-    }
+    const response = await createFirestoreUser(email, password, username);
+    // if (response.ok) {
+    setEmail("");
+    setUsername("");
+    setPassword("");
+    setConfirmPassword("");
+
+    navigation.navigate("AccountCreated");
+    // }
+
+    console.log("This is ran everytime.");
+
     setLoading(false);
   };
-
-  useEffect(() => {
-    if (submitted) {
-      if (username) {
-        setUsernameError(false);
-        setErrorMessage("");
-      } else {
-        setUsernameError(true);
-        setErrorMessage("Make sure to fill out all fields.");
-      }
-      if (password) {
-        setPasswordError(false);
-        setErrorMessage("");
-      } else {
-        setPasswordError(true);
-        setErrorMessage("Make sure to fill out all fields.");
-      }
-    }
-  }, [username, password]);
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={[styles.container, containerStyles]}>
         <View style={[styles.loginBox, { width: loginBoxWidth }]}>
-          <Text style={[styles.loginText, textStyles]}>Login</Text>
+          <Text style={[styles.loginText, textStyles]}>Create Account</Text>
           <CustomInput
             inputWidth={inputWidth}
-            placeholder="Enter username"
+            placeholder="Email"
+            autoComplete="email"
+            placeholderColor={placeholderColor}
+            passedStyles={inputStyles}
+            value={email}
+            onChangeText={setEmail}
+          />
+          <CustomInput
+            inputWidth={inputWidth}
+            placeholder="Username"
             autoComplete="username"
             placeholderColor={placeholderColor}
-            passedStyles={[inputStyles, usernameError && styles.inputError]}
+            passedStyles={inputStyles}
             value={username}
             onChangeText={setUsername}
           />
           <CustomInput
             inputWidth={inputWidth}
-            placeholder="Enter password"
+            placeholder="Password"
             autoComplete="password"
             placeholderColor={placeholderColor}
-            passedStyles={[inputStyles, passwordError && styles.inputError]}
+            passedStyles={inputStyles}
             value={password}
             onChangeText={setPassword}
             secureTextEntry={true}
           />
-          <Text style={[textStyles, { color: "red" }]}>{errorMessage}</Text>
+          <CustomInput
+            inputWidth={inputWidth}
+            placeholder="Confirm Password"
+            autoComplete="password"
+            placeholderColor={placeholderColor}
+            passedStyles={inputStyles}
+            value={confirmPassword}
+            onChangeText={setConfirmPassword}
+            secureTextEntry={true}
+          />
           <TouchableOpacity
             style={styles.loginButton}
             onPress={() => handleSubmit()}
           >
-            <Text style={{ color: "#E0E0E0" }}>{!loading ? 'Login' : 'Loading...'}</Text>
+            <Text style={{ color: "#E0E0E0" }}>
+              {!loading ? "Sign Up" : "Loading..."}
+            </Text>
           </TouchableOpacity>
-          <View style={[styles.linkBox, { width: inputWidth }]}>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("CreateAccount")}
-            >
-              <Text style={textStyles}>Create Account</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("ForgotPassword")}
-            >
-              <Text style={textStyles}>Forgot Password</Text>
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+            <Text style={textStyles}>Back to Login</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </TouchableWithoutFeedback>
@@ -163,9 +148,5 @@ const styles = StyleSheet.create({
     padding: 10,
     paddingHorizontal: 30,
     borderRadius: 50,
-  },
-  inputError: {
-    borderColor: "red",
-    borderWidth: 1,
   },
 });
