@@ -12,6 +12,7 @@ import {
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signOut,
 } from "firebase/auth";
 
 // Add a new document in collection "cities"
@@ -110,4 +111,12 @@ const checkLogin = async (username, password) => {
   }
 };
 
-export { createFirestoreUser, resetPassword, checkLogin };
+const signOutOfApp = () => {
+  try {
+    signOut(auth);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export { createFirestoreUser, resetPassword, checkLogin, signOutOfApp };

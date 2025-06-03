@@ -10,3 +10,4 @@
 - Create an MVP that has most of the features working fine
 - Group creation needs to be sorted out
 - Group listing needs to be sorted out
+- Camera needs to be opened in the app

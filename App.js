@@ -42,7 +42,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      {!user ? (
+      {user ? (
         // User is logged in, show main app
         <AppNavigator />
       ) : (
