@@ -9,14 +9,20 @@ import {
   Keyboard,
   SafeAreaView,
   FlatList,
+  Image,
+  ScrollView,
 } from "react-native";
 
 import { signOutOfApp } from "../../../backend/loginVerify";
+import beach from "../../images/beach.jpg";
+import wedding from "../../images/wedding.jpg";
+import reunion from "../../images/reunion.jpg";
+import birthday from "../../images/birthday.jpg";
+import hiking from "../../images/hiking.jpg";
+
+import Group from "../../reusable/Group";
 
 export default function Home({ navigation }) {
-  const { width } = useWindowDimensions();
-  const loginBoxWidth = width > 768 ? "40%" : "90%";
-
   const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === "dark";
 
@@ -29,56 +35,77 @@ export default function Home({ navigation }) {
 
   const data = [
     {
+      id: "1",
       groupName: "Trip to Hawaii",
-      timeRemaining: "5 days, 4 hours, 12 minutes",
-      numPhotos: 123,
-      numVideos: 34,
+      timeRemaining: "5d, 4h, 12m",
+      image: beach,
     },
     {
+      id: "2",
       groupName: "Mark's Wedding",
-      timeRemaining: "7 months, 13 hours, 48 minutes",
-      numPhotos: 543,
-      numVideos: 103,
+      timeRemaining: "7m, 13h, 48m",
+      image: wedding,
+    },
+    {
+      id: "3",
+      groupName: "Family Reunion",
+      timeRemaining: "2w, 1d",
+      image: reunion,
+    },
+    {
+      id: "4",
+      groupName: "Birthday Party",
+      timeRemaining: "Tomorrow!",
+      image: birthday,
+    },
+    {
+      id: "5",
+      groupName: "Hiking Adventure",
+      timeRemaining: "1m, 2d",
+      image: hiking,
     },
   ];
 
   const renderItem = ({ item }) => {
-    return (
-      <View style={styles.item}>
-        <View>
-          <Text style={textStyles}>{item.groupName}</Text>
-          <Text style={textStyles}>{item.timeRemaining}</Text>
-          <Text style={textStyles}>
-            {item.numPhotos} photos, {item.numVideos} videos
-          </Text>
-        </View>
-        <Text style={textStyles}>Add to Collection</Text>
-      </View>
-    );
+    return <Group item={item} />;
   };
 
   return (
     <SafeAreaView style={[containerStyles, styles.screen]}>
-      <View style={styles.headerContainer}>
-        <View style={styles.placeholder} />
-        <Text style={[styles.header, textStyles]}>Homepage</Text>
-        <TouchableOpacity onPress={() => signOutOfApp()}>
-          <Text style={textStyles}>Logout</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.body}>
-        <TouchableOpacity style={styles.button}>
-          <Text style={textStyles}>Create/Join Group</Text>
-        </TouchableOpacity>
-        <Text style={[textStyles, styles.subHeader]}>Active Groups</Text>
-        <FlatList
-          data={data}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.id}
-          style={styles.flatlistContainer}
-        />
-        <Text style={[textStyles, styles.subHeader]}>Past Groups</Text>
-      </View>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles.headerContainer}>
+          <Text style={[styles.placeholder, textStyles]}>Profile</Text>
+          <Text style={[styles.header, textStyles]}>Homepage</Text>
+          <TouchableOpacity onPress={() => signOutOfApp()}>
+            <Text style={textStyles}>Logout</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.body}>
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("CreateGroup")}>
+            <Text style={[textStyles, { textAlign: "center" }]}>
+              Create/Join Group
+            </Text>
+          </TouchableOpacity>
+          <Text style={[textStyles, styles.subHeader]}>Active Groups</Text>
+          <FlatList
+            data={data}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.id}
+            style={styles.flatlistContainer}
+            numColumns={2}
+            scrollEnabled={false}
+          />
+          <Text style={[textStyles, styles.subHeader]}>Past Groups</Text>
+          <FlatList
+            data={data}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.id}
+            style={styles.flatlistContainer}
+            numColumns={2}
+            scrollEnabled={false}
+          />
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -116,14 +143,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     marginBottom: 10,
   },
-  item: {
-    borderWidth: 1,
-    borderColor: "white",
-    marginVertical: 5,
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    padding: 3,
+  flatlistContainer: {
+    marginVertical: 10,
   },
 });

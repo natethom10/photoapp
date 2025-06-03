@@ -11,3 +11,9 @@
 - Group creation needs to be sorted out
 - Group listing needs to be sorted out
 - Camera needs to be opened in the app
+
+Things that should be displayed for each group:
+- Group name
+- Days until media can be viewed
+- Option to add to collection
+- Cover image?
