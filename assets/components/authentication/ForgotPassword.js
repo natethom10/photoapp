@@ -12,7 +12,7 @@ import {
 import { useEffect, useState } from "react";
 import CustomInput from "../../reusable/Input";
 
-import { resetPassword } from "../../../backend/loginVerify";
+import { resetPassword } from "../../../backend/authentication/loginVerify";
 
 export default function ForgotPassword({ navigation }) {
   const [email, setEmail] = useState("");
@@ -25,9 +25,10 @@ export default function ForgotPassword({ navigation }) {
   const isDarkMode = colorScheme === "dark";
 
   const inputStyles = {
-    borderColor: isDarkMode ? "#444444" : "#ccc",
+    borderColor: isDarkMode ? "#ccc" : "#444444",
     backgroundColor: isDarkMode ? "#1F1F1F" : "#fff",
     color: isDarkMode ? "#E0E0E0" : "black",
+    borderWidth: 1,
   };
   const textStyles = {
     color: isDarkMode ? "#E0E0E0" : "#333",

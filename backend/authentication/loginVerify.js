@@ -1,5 +1,5 @@
 // loginVerify.js
-import { db, auth } from "../firebaseConfig.js";
+import { db, auth } from "../../firebaseConfig.js";
 import {
   collection,
   query,

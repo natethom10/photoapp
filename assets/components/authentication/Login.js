@@ -12,7 +12,7 @@ import {
 import { useEffect, useState } from "react";
 import CustomInput from "../../reusable/Input";
 
-import { checkLogin } from "../../../backend/loginVerify";
+import { checkLogin } from "../../../backend/authentication/loginVerify";
 
 export default function Login({ navigation }) {
   const [username, setUsername] = useState("");
@@ -33,9 +33,10 @@ export default function Login({ navigation }) {
   const isDarkMode = colorScheme === "dark";
 
   const inputStyles = {
-    borderColor: isDarkMode ? "#444444" : "#ccc",
+    borderColor: isDarkMode ? "#ccc" : "#444444",
     backgroundColor: isDarkMode ? "#1F1F1F" : "#fff",
     color: isDarkMode ? "#E0E0E0" : "black",
+    borderWidth: 1,
   };
   const textStyles = {
     color: isDarkMode ? "#E0E0E0" : "#333",
@@ -113,7 +114,9 @@ export default function Login({ navigation }) {
             style={styles.loginButton}
             onPress={() => handleSubmit()}
           >
-            <Text style={{ color: "#E0E0E0" }}>{!loading ? 'Login' : 'Loading...'}</Text>
+            <Text style={{ color: "#E0E0E0" }}>
+              {!loading ? "Login" : "Loading..."}
+            </Text>
           </TouchableOpacity>
           <View style={[styles.linkBox, { width: inputWidth }]}>
             <TouchableOpacity

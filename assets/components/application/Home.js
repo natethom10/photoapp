@@ -2,18 +2,14 @@ import {
   View,
   Text,
   StyleSheet,
-  useWindowDimensions,
   useColorScheme,
   TouchableOpacity,
-  TouchableWithoutFeedback,
-  Keyboard,
   SafeAreaView,
   FlatList,
-  Image,
   ScrollView,
 } from "react-native";
 
-import { signOutOfApp } from "../../../backend/loginVerify";
+import { signOutOfApp } from "../../../backend/authentication/loginVerify";
 import beach from "../../images/beach.jpg";
 import wedding from "../../images/wedding.jpg";
 import reunion from "../../images/reunion.jpg";
@@ -21,6 +17,7 @@ import birthday from "../../images/birthday.jpg";
 import hiking from "../../images/hiking.jpg";
 
 import Group from "../../reusable/Group";
+import { AddToCollection } from "../../../backend/app/AddToCollectionScreen";
 
 export default function Home({ navigation }) {
   const colorScheme = useColorScheme();
@@ -32,6 +29,11 @@ export default function Home({ navigation }) {
   const containerStyles = {
     backgroundColor: isDarkMode ? "#121212" : "#f0f2f5",
   };
+  const buttonStyles = {
+    borderColor: isDarkMode ? "#ccc" : "#444444",
+    backgroundColor: isDarkMode ? "#1F1F1F" : "#fff",
+    color: isDarkMode ? "#E0E0E0" : "black",
+  };
 
   const data = [
     {
@@ -39,35 +41,40 @@ export default function Home({ navigation }) {
       groupName: "Trip to Hawaii",
       timeRemaining: "5d, 4h, 12m",
       image: beach,
+      icon: "plus-circle",
     },
     {
       id: "2",
       groupName: "Mark's Wedding",
       timeRemaining: "7m, 13h, 48m",
       image: wedding,
+      icon: "camera"
     },
     {
       id: "3",
       groupName: "Family Reunion",
       timeRemaining: "2w, 1d",
       image: reunion,
+      icon: "plus-square"
     },
     {
       id: "4",
       groupName: "Birthday Party",
       timeRemaining: "Tomorrow!",
       image: birthday,
+      icon: "video-camera"
     },
     {
       id: "5",
       groupName: "Hiking Adventure",
       timeRemaining: "1m, 2d",
       image: hiking,
+      icon: "upload"
     },
   ];
 
   const renderItem = ({ item }) => {
-    return <Group item={item} />;
+    return <Group item={item} AddToCollection={AddToCollection} />;
   };
 
   return (
@@ -81,7 +88,10 @@ export default function Home({ navigation }) {
           </TouchableOpacity>
         </View>
         <View style={styles.body}>
-          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("CreateGroup")}>
+          <TouchableOpacity
+            style={[styles.button, buttonStyles]}
+            onPress={() => navigation.navigate("CreateGroup")}
+          >
             <Text style={[textStyles, { textAlign: "center" }]}>
               Create/Join Group
             </Text>
@@ -139,7 +149,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     padding: 10,
     borderWidth: 1,
-    borderColor: "white",
     borderRadius: 15,
     marginBottom: 10,
   },

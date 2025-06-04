@@ -12,7 +12,7 @@ import {
 import { useEffect, useState } from "react";
 import CustomInput from "../../reusable/Input";
 
-import { createFirestoreUser } from "../../../backend/loginVerify";
+import { createFirestoreUser } from "../../../backend/authentication/loginVerify";
 
 export default function CreateAccount({ navigation }) {
   const [email, setEmail] = useState("");
@@ -29,9 +29,10 @@ export default function CreateAccount({ navigation }) {
   const isDarkMode = colorScheme === "dark";
 
   const inputStyles = {
-    borderColor: isDarkMode ? "#444444" : "#ccc",
+    borderColor: isDarkMode ? "#ccc" : "#444444",
     backgroundColor: isDarkMode ? "#1F1F1F" : "#fff",
     color: isDarkMode ? "#E0E0E0" : "black",
+    borderWidth: 1,
   };
   const textStyles = {
     color: isDarkMode ? "#E0E0E0" : "#333",
