@@ -50,12 +50,8 @@ export default function CreateAccount({ navigation }) {
     setUsername("");
     setPassword("");
     setConfirmPassword("");
-
-    navigation.navigate("AccountCreated");
     // }
-
-    console.log("This is ran everytime.");
-
+    
     setLoading(false);
   };
 

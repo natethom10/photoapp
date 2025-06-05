@@ -3,7 +3,6 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import Login from "../authentication/Login";
 import CreateAccount from "../authentication/CreateAccount";
-import CreateSuccess from "../authentication/CreateSuccess";
 import ForgotPassword from "../authentication/ForgotPassword";
 import ForgotPasswordSuccess from "../authentication/ForgotPasswdSuccess";
 
@@ -15,7 +14,6 @@ export default function AuthNavigator() {
       <AuthStack.Screen name="Login" component={Login} />
       <AuthStack.Screen name="CreateAccount" component={CreateAccount} />
       <AuthStack.Screen name="ForgotPassword" component={ForgotPassword} />
-      <AuthStack.Screen name="AccountCreated" component={CreateSuccess} />
       <AuthStack.Screen
         name="PasswordLinkSent"
         component={ForgotPasswordSuccess}

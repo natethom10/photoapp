@@ -39,7 +39,9 @@ const createFirestoreUser = async (email, password, username) => {
       username: username.toLowerCase(),
       email: email, // Store email as a field too
       createdAt: new Date(),
-      // ... any other user profile data
+      memberOf: [],
+      ownedGroups: [],
+      // other datapoints
     });
 
     console.log("User created in Auth and Firestore:", uid);

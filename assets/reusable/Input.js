@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     height: 50,
     paddingHorizontal: 15,
     borderRadius: 10,
-    fontSize: 16,
+    padding: 10
   },
 });
 
