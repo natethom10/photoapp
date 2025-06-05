@@ -35,7 +35,11 @@ const Group = ({ item, AddToCollection }) => {
         </View>
         <TouchableOpacity onPress={() => AddToCollection(item)}>
           {/* <Text style={textStyles}>Add to Collection</Text> */}
-          <FontAwesome name={item.icon} size={24} color={textStyles.color} />
+          <FontAwesome
+            name={"plus-circle"}
+            size={24}
+            color={textStyles.color}
+          />
         </TouchableOpacity>
       </View>
     </View>

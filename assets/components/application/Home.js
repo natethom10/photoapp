@@ -41,35 +41,30 @@ export default function Home({ navigation }) {
       groupName: "Trip to Hawaii",
       timeRemaining: "5d, 4h, 12m",
       image: beach,
-      icon: "plus-circle",
     },
     {
       id: "2",
       groupName: "Mark's Wedding",
       timeRemaining: "7m, 13h, 48m",
       image: wedding,
-      icon: "camera"
     },
     {
       id: "3",
       groupName: "Family Reunion",
       timeRemaining: "2w, 1d",
       image: reunion,
-      icon: "plus-square"
     },
     {
       id: "4",
       groupName: "Birthday Party",
       timeRemaining: "Tomorrow!",
       image: birthday,
-      icon: "video-camera"
     },
     {
       id: "5",
       groupName: "Hiking Adventure",
       timeRemaining: "1m, 2d",
       image: hiking,
-      icon: "upload"
     },
   ];
 
