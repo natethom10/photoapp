@@ -40,6 +40,7 @@ const LoginBox = ({ username, setUsername, password, setPassword }: Props) => {
         ]}
         value={username}
         onChangeText={setUsername}
+        autoCapitalize="none"
       />
       <TextInput
         placeholder="Password"
@@ -55,7 +56,13 @@ const LoginBox = ({ username, setUsername, password, setPassword }: Props) => {
         ]}
         value={password}
         onChangeText={setPassword}
+        autoCapitalize="none"
       />
+      <Link href="/loginsuccess" asChild>
+        <TouchableOpacity style={[styles.button, { borderColor: colors.text }]}>
+          <Text style={{ color: colors.text }}>Continue</Text>
+        </TouchableOpacity>
+      </Link>
 
       <Link href="/createaccount" asChild>
         <TouchableOpacity style={[styles.button, { borderColor: colors.text }]}>
