@@ -1,5 +1,5 @@
 import { SafeAreaView } from "react-native-safe-area-context";
-import CreateAccountBox from "./components/CreateAccountBox";
+import CreateAccountBox from "../../components/authentication/CreateAccountBox";
 
 export default function CreateAccount() {
   return (

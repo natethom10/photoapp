@@ -1,6 +1,6 @@
 import { useTheme } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import LoginBox from "./components/LoginBox";
+import LoginBox from "../../components/authentication/LoginBox";
 import { useState } from "react";
 
 export default function Login() {
