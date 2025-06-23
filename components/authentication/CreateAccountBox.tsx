@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { Ionicons } from "@expo/vector-icons"; // Make sure you have @expo/vector-icons
+import { Ionicons } from "@expo/vector-icons";
 
 import { createFirestoreUser } from "../../scripts/createFirestoreUser";
 import { checkUsernameAvailability } from "@/scripts/checkUsernameAvailability";

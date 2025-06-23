@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { useTheme } from "@react-navigation/native";
 import { Link } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
 
 type Props = {
   username: string;
@@ -30,6 +31,7 @@ const LoginBox = ({
 }: Props) => {
   const { colors } = useTheme();
   const dimensions = useWindowDimensions();
+  const [showPassword, setShowPassword] = useState(false);
 
   return (
     <View style={[styles.container, { marginTop: dimensions.height / 8 }]}>
@@ -51,23 +53,33 @@ const LoginBox = ({
         value={username}
         onChangeText={setUsername}
         autoCapitalize="none"
+        autoCorrect={false}
       />
-      <TextInput
-        placeholder="Password"
-        placeholderTextColor={colors.text}
-        secureTextEntry
+      <View
         style={[
-          styles.input,
-          {
-            borderColor: colors.text,
-            color: colors.text,
-            backgroundColor: colors.card,
-          },
+          styles.inputContainer,
+          { borderColor: colors.text, backgroundColor: colors.card },
         ]}
-        value={password}
-        onChangeText={setPassword}
-        autoCapitalize="none"
-      />
+      >
+        <TextInput
+          style={[styles.passwordInput, { color: colors.text }]}
+          placeholder="Password"
+          placeholderTextColor={colors.text}
+          secureTextEntry={!showPassword}
+          value={password}
+          onChangeText={setPassword}
+          autoCapitalize="none"
+          autoCorrect={false}
+        />
+        <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+          <Ionicons
+            name={showPassword ? "eye-off" : "eye"}
+            size={20}
+            color={colors.text}
+            style={{ paddingHorizontal: 6 }}
+          />
+        </TouchableOpacity>
+      </View>
       <TouchableOpacity
         style={[styles.button, { borderColor: colors.text }]}
         onPress={handleSubmit}
@@ -112,6 +124,19 @@ const styles = StyleSheet.create({
     padding: 10,
     borderWidth: 1,
     borderRadius: 6,
+  },
+  inputContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderWidth: 1,
+    borderRadius: 6,
+    width: "70%",
+    height: 40,
+    paddingHorizontal: 10,
+  },
+  passwordInput: {
+    flex: 1,
+    height: "100%",
   },
 });
 
