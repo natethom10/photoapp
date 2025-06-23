@@ -9,7 +9,6 @@ export default function Index() {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (u) => {
-      console.log(JSON.stringify(u, null, 2));
       setUser(u);
       setChecking(false);
     });

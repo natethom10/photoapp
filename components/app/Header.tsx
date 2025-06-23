@@ -1,8 +1,11 @@
 import { useTheme } from "@react-navigation/native";
+import { useRouter } from "expo-router";
 import { View, Text, TouchableOpacity } from "react-native";
 
 const Header = () => {
   const { colors } = useTheme();
+  const router = useRouter();
+
   return (
     <View
       style={{
@@ -16,10 +19,11 @@ const Header = () => {
       <Text style={{ color: colors.primary, fontWeight: "bold", fontSize: 18 }}>
         Capsule
       </Text>
-      <TouchableOpacity>
-        <Text style={{ color: colors.text, width: 50, textAlign: "right" }}>
-          Profile
-        </Text>
+      <TouchableOpacity
+        style={{ width: 50 }}
+        onPress={() => router.push("/(app)/profile")}
+      >
+        <Text style={{ color: colors.text, textAlign: "right" }}>Profile</Text>
       </TouchableOpacity>
     </View>
   );

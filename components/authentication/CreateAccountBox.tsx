@@ -8,8 +8,9 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
-import { Link } from "expo-router";
+import { useRouter } from "expo-router";
 import { useState } from "react";
+import { Ionicons } from "@expo/vector-icons"; // Make sure you have @expo/vector-icons
 
 import { createFirestoreUser } from "../../scripts/createFirestoreUser";
 import { checkUsernameAvailability } from "@/scripts/checkUsernameAvailability";
@@ -24,6 +25,9 @@ const CreateAccountBox = () => {
   const [emailError, setEmailError] = useState("");
   const [usernameError, setUsernameError] = useState("");
   const [fieldsError, setFieldsError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
+  const router = useRouter();
 
   const handleSubmit = async () => {
     setLoading(true);
@@ -62,6 +66,7 @@ const CreateAccountBox = () => {
       setUsernameError("");
       setPassword("");
       setConfirmPassword("");
+      router.replace("/(app)/home");
     }
 
     setLoading(false);
@@ -135,21 +140,31 @@ const CreateAccountBox = () => {
               </Text>
             </View>
           ))}
-        <TextInput
-          placeholder="Password"
-          placeholderTextColor={colors.text}
-          secureTextEntry
+        <View
           style={[
-            styles.input,
-            {
-              borderColor: colors.text,
-              color: colors.text,
-              backgroundColor: colors.card,
-            },
+            styles.inputContainer,
+            { borderColor: colors.text, backgroundColor: colors.card },
           ]}
-          value={password}
-          onChangeText={setPassword}
-        />
+        >
+          <TextInput
+            style={[styles.passwordInput, { color: colors.text }]}
+            placeholder="Password"
+            placeholderTextColor={colors.text}
+            secureTextEntry={!showPassword}
+            value={password}
+            onChangeText={setPassword}
+            autoCapitalize="none"
+          />
+          <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+            <Ionicons
+              name={showPassword ? "eye-off" : "eye"}
+              size={20}
+              color={colors.text}
+              style={{ paddingHorizontal: 6 }}
+            />
+          </TouchableOpacity>
+        </View>
+
         {password.length < 6 && password.length > 0 ? (
           <Text
             style={{
@@ -160,21 +175,31 @@ const CreateAccountBox = () => {
             Must be at least 6 characters
           </Text>
         ) : null}
-        <TextInput
-          placeholder="Confirm Password"
-          placeholderTextColor={colors.text}
-          secureTextEntry
+        <View
           style={[
-            styles.input,
-            {
-              borderColor: colors.text,
-              color: colors.text,
-              backgroundColor: colors.card,
-            },
+            styles.inputContainer,
+            { borderColor: colors.text, backgroundColor: colors.card },
           ]}
-          value={confirmPassword}
-          onChangeText={setConfirmPassword}
-        />
+        >
+          <TextInput
+            style={[styles.passwordInput, { color: colors.text }]}
+            placeholder="Confirm Password"
+            placeholderTextColor={colors.text}
+            secureTextEntry={!showPassword}
+            value={confirmPassword}
+            onChangeText={setConfirmPassword}
+            autoCapitalize="none"
+          />
+          <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+            <Ionicons
+              name={showPassword ? "eye-off" : "eye"}
+              size={20}
+              color={colors.text}
+              style={{ paddingHorizontal: 6 }}
+            />
+          </TouchableOpacity>
+        </View>
+
         {confirmPassword !== password ||
         (confirmPassword.length < 6 && confirmPassword.length > 0) ? (
           <View>
@@ -188,6 +213,7 @@ const CreateAccountBox = () => {
             </Text>
           </View>
         ) : null}
+
         <TouchableOpacity
           style={[styles.button, { borderColor: colors.text }]}
           onPress={handleSubmit}
@@ -206,13 +232,12 @@ const CreateAccountBox = () => {
       </View>
       <View style={styles.container}>
         <Text style={{ color: colors.text }}>Already have an account?</Text>
-        <Link href="/" asChild>
-          <TouchableOpacity
-            style={[styles.button, { borderColor: colors.text }]}
-          >
-            <Text style={{ color: colors.text }}>Back to Login</Text>
-          </TouchableOpacity>
-        </Link>
+        <TouchableOpacity
+          style={[styles.button, { borderColor: colors.text }]}
+          onPress={() => router.back()}
+        >
+          <Text style={{ color: colors.text }}>Back to Login</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -241,5 +266,18 @@ const styles = StyleSheet.create({
   outerContainer: {
     flex: 1,
     justifyContent: "space-between",
+  },
+  inputContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderWidth: 1,
+    borderRadius: 6,
+    width: "70%",
+    height: 40,
+    paddingHorizontal: 10,
+  },
+  passwordInput: {
+    flex: 1,
+    height: "100%",
   },
 });

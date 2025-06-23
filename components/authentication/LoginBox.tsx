@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   TextInput,
   View,
@@ -6,6 +6,7 @@ import {
   Text,
   TouchableOpacity,
   useWindowDimensions,
+  ActivityIndicator,
 } from "react-native";
 import { useTheme } from "@react-navigation/native";
 import { Link } from "expo-router";
@@ -15,9 +16,18 @@ type Props = {
   setUsername: (value: string) => void;
   password: string;
   setPassword: (value: string) => void;
+  handleSubmit: () => void;
+  loading: boolean;
 };
 
-const LoginBox = ({ username, setUsername, password, setPassword }: Props) => {
+const LoginBox = ({
+  username,
+  setUsername,
+  password,
+  setPassword,
+  handleSubmit,
+  loading,
+}: Props) => {
   const { colors } = useTheme();
   const dimensions = useWindowDimensions();
 
@@ -28,7 +38,7 @@ const LoginBox = ({ username, setUsername, password, setPassword }: Props) => {
       </Text>
 
       <TextInput
-        placeholder="Username"
+        placeholder="Email or Username"
         placeholderTextColor={colors.text}
         style={[
           styles.input,
@@ -58,11 +68,16 @@ const LoginBox = ({ username, setUsername, password, setPassword }: Props) => {
         onChangeText={setPassword}
         autoCapitalize="none"
       />
-      <Link href="/loginsuccess" asChild>
-        <TouchableOpacity style={[styles.button, { borderColor: colors.text }]}>
+      <TouchableOpacity
+        style={[styles.button, { borderColor: colors.text }]}
+        onPress={handleSubmit}
+      >
+        {loading ? (
+          <ActivityIndicator />
+        ) : (
           <Text style={{ color: colors.text }}>Continue</Text>
-        </TouchableOpacity>
-      </Link>
+        )}
+      </TouchableOpacity>
 
       <Link href="/createaccount" asChild>
         <TouchableOpacity style={[styles.button, { borderColor: colors.text }]}>

@@ -7,11 +7,14 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 
 const ForgotPasswordBox = () => {
   const { colors } = useTheme();
   const dimensions = useWindowDimensions();
+
+  const router = useRouter();
+
   return (
     <View style={[styles.container, { marginTop: dimensions.height / 10 }]}>
       <Text style={{ color: colors.text, fontSize: 18, marginBottom: 8 }}>
@@ -29,11 +32,12 @@ const ForgotPasswordBox = () => {
           },
         ]}
       />
-      <Link href="/codesent" asChild>
-        <TouchableOpacity style={[styles.button, { borderColor: colors.text }]}>
-          <Text style={{ color: colors.text }}>Send Code</Text>
-        </TouchableOpacity>
-      </Link>
+      <TouchableOpacity
+        style={[styles.button, { borderColor: colors.text }]}
+        onPress={() => router.replace("/(authentication)/codesent")}
+      >
+        <Text style={{ color: colors.text }}>Send Code</Text>
+      </TouchableOpacity>
     </View>
   );
 };
