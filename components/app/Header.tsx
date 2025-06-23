@@ -1,5 +1,5 @@
 import { useTheme } from "@react-navigation/native";
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 
 const Header = () => {
   const { colors } = useTheme();
@@ -9,17 +9,18 @@ const Header = () => {
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
-        paddingHorizontal: 16,
-        height: 56,
+        height: 25,
       }}
     >
       <View style={{ width: 50 }} />
-      <Text style={{ color: colors.text, fontWeight: "bold", fontSize: 18 }}>
-        Homepage
+      <Text style={{ color: colors.primary, fontWeight: "bold", fontSize: 18 }}>
+        Capsule
       </Text>
-      <Text style={{ color: colors.text, width: 50, textAlign: "right" }}>
-        Profile
-      </Text>
+      <TouchableOpacity>
+        <Text style={{ color: colors.text, width: 50, textAlign: "right" }}>
+          Profile
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 };
