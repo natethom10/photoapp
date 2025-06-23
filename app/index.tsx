@@ -1,6 +1,26 @@
-// app/index.tsx
 import { Redirect } from "expo-router";
+import { useEffect, useState } from "react";
+import { onAuthStateChanged, User } from "firebase/auth";
+import { auth } from "@/firebaseConfig";
 
 export default function Index() {
-  return <Redirect href="/login" />;
+  const [user, setUser] = useState<User | null>(null);
+  const [checking, setChecking] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (u) => {
+      console.log(JSON.stringify(u, null, 2));
+      setUser(u);
+      setChecking(false);
+    });
+    return unsubscribe;
+  }, []);
+
+  if (checking) return null;
+
+  return user ? (
+    <Redirect href="/(app)/home" />
+  ) : (
+    <Redirect href="/(authentication)/login" />
+  );
 }

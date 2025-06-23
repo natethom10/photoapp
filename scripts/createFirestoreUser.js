@@ -1,11 +1,4 @@
-import {
-  collection,
-  query,
-  where,
-  getDocs,
-  doc,
-  setDoc,
-} from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { db, auth } from "../firebaseConfig";
 
 import { createUserWithEmailAndPassword } from "firebase/auth";

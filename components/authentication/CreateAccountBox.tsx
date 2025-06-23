@@ -37,7 +37,8 @@ const CreateAccountBox = () => {
       username
     );
     if (!response.success) {
-      if (response.code === "missing-fields") setFieldsError(response.message);
+      if (response.code === "missing-fields")
+        setFieldsError(response.message ?? "Complete all fields.");
       else setFieldsError("");
 
       if (
@@ -45,14 +46,14 @@ const CreateAccountBox = () => {
         response.code === "weak-username"
       ) {
         console.log(response.message);
-        setUsernameError(response.message);
+        setUsernameError(response.message ?? "Username unavailable.");
       } else setUsernameError("");
 
       if (
         response.code === "auth/email-already-in-use" ||
         response.code === "auth/invalid-email"
       )
-        setEmailError(response.message);
+        setEmailError(response.message ?? "Email invalid/Already in use");
       else setEmailError("");
     } else {
       setEmail("");
@@ -115,7 +116,7 @@ const CreateAccountBox = () => {
             if (available.success) {
               setUsernameError("");
             } else {
-              setUsernameError(available.message);
+              setUsernameError(available.message ?? "Username unavailable");
             }
           }}
           autoCapitalize="none"
