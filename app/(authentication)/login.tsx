@@ -4,7 +4,7 @@ import LoginBox from "../../components/authentication/LoginBox";
 import { useState } from "react";
 import { loginWithIdentifier } from "@/scripts/handleLogin";
 import { useRouter } from "expo-router";
-import { TouchableWithoutFeedback, Keyboard, Text } from "react-native";
+import { TouchableWithoutFeedback, Keyboard } from "react-native";
 
 export default function Login() {
   const { colors } = useTheme();
