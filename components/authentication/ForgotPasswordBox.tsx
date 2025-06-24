@@ -8,12 +8,20 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useRouter } from "expo-router";
+import { resetPassword } from "@/scripts/resetPassword";
+import { useState } from "react";
 
 const ForgotPasswordBox = () => {
   const { colors } = useTheme();
   const dimensions = useWindowDimensions();
 
   const router = useRouter();
+  const [email, setEmail] = useState("");
+
+  const handleSubmit = () => {
+    resetPassword(email);
+    router.replace("/(authentication)/codesent");
+  };
 
   return (
     <View style={[styles.container, { marginTop: dimensions.height / 10 }]}>
@@ -31,12 +39,17 @@ const ForgotPasswordBox = () => {
             backgroundColor: colors.card,
           },
         ]}
+        value={email}
+        onChangeText={setEmail}
+        autoCapitalize="none"
+        autoComplete="off"
+        autoCorrect={false}
       />
       <TouchableOpacity
         style={[styles.button, { borderColor: colors.text }]}
-        onPress={() => router.replace("/(authentication)/codesent")}
+        onPress={handleSubmit}
       >
-        <Text style={{ color: colors.text }}>Send Code</Text>
+        <Text style={{ color: colors.text }}>Send Email</Text>
       </TouchableOpacity>
     </View>
   );

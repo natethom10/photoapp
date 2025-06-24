@@ -96,6 +96,8 @@ const CreateAccountBox = () => {
           value={email}
           onChangeText={setEmail}
           autoCapitalize="none"
+          autoComplete="off"
+          autoCorrect={false}
         />
         {emailError && (
           <View>
@@ -125,6 +127,8 @@ const CreateAccountBox = () => {
             }
           }}
           autoCapitalize="none"
+          autoComplete="off"
+          autoCorrect={false}
         />
         {username.length >= 4 &&
           (usernameError ? (
@@ -154,6 +158,8 @@ const CreateAccountBox = () => {
             value={password}
             onChangeText={setPassword}
             autoCapitalize="none"
+            autoComplete="off"
+            autoCorrect={false}
           />
           <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
             <Ionicons
@@ -189,6 +195,8 @@ const CreateAccountBox = () => {
             value={confirmPassword}
             onChangeText={setConfirmPassword}
             autoCapitalize="none"
+            autoComplete="off"
+            autoCorrect={false}
           />
           <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
             <Ionicons

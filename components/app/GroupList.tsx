@@ -10,12 +10,11 @@ const GroupList = () => {
       <View style={styles.container}>
         <Group />
         <Group />
-        <Group />
-        <Group />
-        <Group />
       </View>
       <Text style={{ color: colors.text, marginTop: 20 }}>Previous Groups</Text>
       <View style={styles.container}>
+        <Group />
+        <Group />
         <Group />
         <Group />
       </View>

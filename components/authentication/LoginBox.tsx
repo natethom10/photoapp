@@ -83,6 +83,7 @@ const LoginBox = ({
       <TouchableOpacity
         style={[styles.button, { borderColor: colors.text }]}
         onPress={handleSubmit}
+        disabled={loading}
       >
         {loading ? (
           <ActivityIndicator />

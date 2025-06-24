@@ -1,15 +1,29 @@
+import {
+  Text,
+  StyleSheet,
+  useWindowDimensions,
+  TouchableOpacity,
+} from "react-native";
 import { useTheme } from "@react-navigation/native";
-import { View, Text, StyleSheet, useWindowDimensions } from "react-native";
+import { useRouter } from "expo-router";
 
 const Group = () => {
   const { colors } = useTheme();
   const { width } = useWindowDimensions();
+  const router = useRouter();
+
+  const handlePress = () => {
+    router.push("/(app)/groupscreen");
+  };
+
   return (
-    <View
+    <TouchableOpacity
       style={[
         styles.container,
         { width: width / 2.3, borderColor: colors.border },
       ]}
+      onPress={handlePress}
+      activeOpacity={0.7}
     >
       <Text style={{ color: colors.text, textAlign: "center" }}>
         Group Name
@@ -18,7 +32,7 @@ const Group = () => {
         Opening Date
       </Text>
       <Text style={{ color: colors.text, textAlign: "center" }}>Image</Text>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -29,5 +43,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     display: "flex",
     padding: 10,
+    borderRadius: 8,
   },
 });
