@@ -59,10 +59,9 @@ export default function Login() {
           setPassword={setPassword}
           handleSubmit={handleSubmit}
           loading={loading}
+          error={error}
+          setError={setError}
         />
-        <Text style={{ color: "red", textAlign: "center", marginTop: 10 }}>
-          {error}
-        </Text>
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );

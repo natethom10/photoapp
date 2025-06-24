@@ -9,7 +9,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { useTheme } from "@react-navigation/native";
-import { Link } from "expo-router";
+import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 
 type Props = {
@@ -19,6 +19,8 @@ type Props = {
   setPassword: (value: string) => void;
   handleSubmit: () => void;
   loading: boolean;
+  error: string;
+  setError: (value: string) => void;
 };
 
 const LoginBox = ({
@@ -28,10 +30,13 @@ const LoginBox = ({
   setPassword,
   handleSubmit,
   loading,
+  error,
+  setError,
 }: Props) => {
   const { colors } = useTheme();
   const dimensions = useWindowDimensions();
   const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
 
   return (
     <View style={[styles.container, { marginTop: dimensions.height / 8 }]}>
@@ -92,17 +97,28 @@ const LoginBox = ({
         )}
       </TouchableOpacity>
 
-      <Link href="/createaccount" asChild>
-        <TouchableOpacity style={[styles.button, { borderColor: colors.text }]}>
-          <Text style={{ color: colors.text }}>Create Account</Text>
-        </TouchableOpacity>
-      </Link>
+      <TouchableOpacity
+        onPress={() => {
+          setError("");
+          setUsername("");
+          setPassword("");
+          router.push("/(authentication)/createaccount");
+        }}
+      >
+        <Text style={{ color: colors.text }}>Create Account</Text>
+      </TouchableOpacity>
 
-      <Link href="/forgotpassword" asChild>
-        <TouchableOpacity style={[styles.button, { borderColor: colors.text }]}>
-          <Text style={{ color: colors.text }}>Forgot Password</Text>
-        </TouchableOpacity>
-      </Link>
+      <TouchableOpacity
+        onPress={() => {
+          setError("");
+          setUsername("");
+          setPassword("");
+          router.push("/(authentication)/forgotpassword");
+        }}
+      >
+        <Text style={{ color: colors.text }}>Forgot Password</Text>
+      </TouchableOpacity>
+      <Text style={styles.error}>{error}</Text>
     </View>
   );
 };
@@ -138,6 +154,11 @@ const styles = StyleSheet.create({
   passwordInput: {
     flex: 1,
     height: "100%",
+  },
+  error: {
+    color: "red",
+    textAlign: "center",
+    marginTop: 10,
   },
 });
 
